@@ -1,16 +1,14 @@
-# omp4
+# Otsu's segmentation algorithm
 
 This is a Computer Architecture class assignment I got in my university.
 This program was written with intent of learning multithread programming basics using C and OpenMP API.  
 
 This program reads an image in PGM format and runs Otsu's image segmentation algorithm on it. 
 
-The results are listed below:
+![Original image!](/test_data/in.png?sanitize=true&raw=true)
+![Processed image!](/test_data/out-1.pgm.png?sanitize=true&raw=true)
 
-![Original image!](/test_data/in.pgm)
-![Processed image!](/test_data/out.pgm)
-
-Program calculates a histogram from given image, then brute-forces search of 3 segment thresholds.
+The program calculates a histogram from given image, then brute-forces search of 3 segment thresholds.
 Calculation time is reduced significantly by using OpenMP's directives such as `#pragma omp parallel for` on loops.
 
 ## How to use it
@@ -23,27 +21,26 @@ Run `omp4` binary and provide number of threads you want to run it on, as well a
 ./omp4 -1 test_data/in.pgm test_data/out.pgm
 ```
 
-Program will update or create output image with the result of pre-set segment brightnesses and provide measured runtime of the program 
-(only algorithm, excluding reading and writing files).
+The program will update or create an output image file and provide measured runtime of the algorithm (excluding reading to files and writing from them).
 
-Launch first argument can also accept additional values:
+The first launch argument can also accept additional values:
 
-* `0: Run with disabled OpenMP directives`
+* `-1: Run with disabled OpenMP directives`
 
-* `-1: Run with all threads enabled`
+* `0: Run with all threads enabled`
 
 ### Testing
 
-Run `test.sh` shell script and provide amount of threads it will run progam on and number of launches respectively:
+Run a `test.sh` shell script and provide the amount of threads it will run the program on and the number of launches respectively:
 
 ```
 ./test.sh 8 5
 ```
 
-Script will run program on two files `in.pgm` and `in8k.pgm` and produce verbose output of runtime measures.
-The first image contains 500x500 dots, the second one contains 7680x4320 dots.
-As a result, with the first image threads will be most loaded while counting thresholds, with the second image it will be histogram.
+The script will run the program on two files `in.pgm` and `in8k.pgm` and produce a verbose output of runtime measures.
+The first given image `test_data/in.pgm` contains 500x500 dots, the second, `test_data/in8k.pgm`, contains 7680x4320 dots.
+As a result, with the first image most of the runtime calculations will be represent counting thresholds, with the second image - counting the histogram.
 
 ##
 
-Repository also contains a report in Russian with more precise description of the program and its results.
+This repository also contains a report in Russian, providing more precise description of the program and runtime measurements analysis.
